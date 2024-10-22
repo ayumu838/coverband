@@ -94,12 +94,14 @@ module Coverband
           puts "Coverband: detected SimpleCov in test Env, allowing it to start Coverage"
           puts "Coverband: to ensure no error logs or missing Coverage call `SimpleCov.start` prior to requiring Coverband"
         elsif ::Coverage.respond_to?(:state)
+          binding.pry
           if ::Coverage.state == :idle
             ::Coverage.start(oneshot_lines: Coverband.configuration.use_oneshot_lines_coverage)
           elsif ::Coverage.state == :suspended
             ::Coverage.resume
           end
         else
+          binding.pry
           ::Coverage.start(oneshot_lines: Coverband.configuration.use_oneshot_lines_coverage) unless ::Coverage.running?
         end
         reset_instance
